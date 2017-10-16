@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SEP.iml" filepath="$PROJECT_DIR$/.idea/modules/SEP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SEP_main.iml" filepath="$PROJECT_DIR$/.idea/modules/SEP_main.iml" group="SEP" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SEP_test.iml" filepath="$PROJECT_DIR$/.idea/modules/SEP_test.iml" group="SEP" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/model_main.iml" filepath="$PROJECT_DIR$/.idea/modules/model_main.iml" group="model" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/model_test.iml" filepath="$PROJECT_DIR$/.idea/modules/model_test.iml" group="model" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/view_main.iml" filepath="$PROJECT_DIR$/.idea/modules/view_main.iml" group="view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/view_test.iml" filepath="$PROJECT_DIR$/.idea/modules/view_test.iml" group="view" />
+    </modules>
+  </component>
+</project>
