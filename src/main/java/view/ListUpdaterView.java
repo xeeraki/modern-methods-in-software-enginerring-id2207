@@ -211,24 +211,23 @@ public class ListUpdaterView extends JFrame {
                 dateTo.setText(event.getTo());
                 budget.setText(String.valueOf(event.getBudget()));
                 description.setText(event.getDescription());
-                clientInfo.setText(event.getClient().getName().toString());
+                clientInfo.setText(event.getClient().getName());
                 //Status status1 = Status.Created;
                 currentStatus.setText(event.getStatus().getText());
                 //event.setStatus(status.getText());
                 currentEventId = event.getId();
 
-
-                if (currentUser.getPosition() == Position.SeniorCustomerService && event.getStatus() == Status.Created) {
+/*
+                if (currentUser.getPosition() == Position.SeniorCustomerService && event.getStatus() == status) {
                     acceptButton.setVisible(true);
                     rejectButton.setVisible(true);
                 }
 
-                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == Status.Created) {
+                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == status.Created) {
                     acceptButton.setVisible(true);
-                    eventList.setVisible(false);
+                    eventList.clearSelection();
                 }
-                else if (event.getStatus()==Status.AcceptedBySCS){
-                    eventList.setVisible(true);
+                else if (currentUser.getPosition()==Position.FinancialManager&& event.getStatus()==status.AcceptedBySCS){
                     //currentStatus.setText(Status.AcceptedBySCS.toString());
                     rejectButton.setVisible(true);
                     updateButton.setVisible(true);
@@ -237,16 +236,16 @@ public class ListUpdaterView extends JFrame {
 
                 }
 
-                if (currentUser.getPosition() == Position.AdministrationManager && event.getStatus() == Status.AcceptedByFM) {
+                if (currentUser.getPosition() == Position.AdministrationManager && event.getStatus() == status.AcceptedByFM) {
                     //setVisible(true);
                     acceptButton.setVisible(true);
                     rejectButton.setVisible(true);
                 }
 
-                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == Status.AcceptedByAM) {
+                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == status.AcceptedByAM) {
                     updateButton.setVisible(true);
                     updateEventListener();
-                }
+                }*/
 
             }
 
@@ -256,31 +255,38 @@ public class ListUpdaterView extends JFrame {
     public void acceptEventListener() {
         acceptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //controller.changeStatus(currentEventId,currentUser);
-            acceptButton.setVisible(false);
-               Status newStatus;
+                controller.changeStatus(currentEventId,currentUser);
+               /*Status newStatus;
                 switch (currentUser.getPosition()) {
                     case SeniorCustomerService:
                         if(currentStatus==null){
-                            currentStatus.setText(Status.Created.getText().toString());
+                            currentStatus.setText(status.getText());
                         }
                         newStatus = Status.AcceptedBySCS;
                         currentStatus.setText(newStatus.toString());
                         break;
                     case FinancialManager:
-                        newStatus = Status.AcceptedByFM;
-                        currentStatus.setText(newStatus.toString());
+                        if(status == status.Created){
+                            currentStatus.setText(status.getText().toString());
+                        }
+                        else if(status==status.AcceptedBySCS) {
+
+                            currentStatus.setText(status.getText().toString());
+                           status = Status.AcceptedByFM;
+                           currentStatus.setText(status.getText());
+                        }
+                        currentStatus.setText(status.AcceptedByFM.getText());
                         break;
                     case AdministrationManager:
-                        newStatus = Status.AcceptedByAM;
+                        newStatus = status.AcceptedByAM;
                         currentStatus.setText(newStatus.toString());
                         break;
                     default:
                         newStatus = null;
-                        currentStatus.setText(newStatus.toString());
+                        currentStatus.setText(newStatus.toString());*/
                 }
 
-            }
+
         });
     }
 

@@ -126,26 +126,28 @@ public class Controller {
         return newList;
     }
 
-
-    /*public void changeStatus(int currentEventId, User currentUser) {
+    public void changeStatus(int currentEventId, User currentUser) {
         EventRequest event = events.get(currentEventId);
         switch (currentUser.getPosition()) {
             case SeniorCustomerService:
-                if (event.getStatus() == Status.Created)
+                if (event.getStatus()==status.Created)
                     event.setStatus(Status.AcceptedBySCS);
                 break;
             case FinancialManager:
-                if (event.getStatus() == Status.AcceptedBySCS)
+                if (event.getStatus() == status.AcceptedBySCS)
                     event.setStatus(Status.AcceptedByFM);
+                else{
+                    events.clear();
+                }
                 break;
             case AdministrationManager:
-                if (event.getStatus() == Status.AcceptedByFM || event.getStatus() == Status.AcceptedBySCS)
+                if (event.getStatus() == status.AcceptedByFM || event.getStatus() == status.AcceptedBySCS)
                     event.setStatus(Status.AcceptedByAM);
                 break;
             default:
         }
 
-    }*/
+    }
 
 
     public void initTeams() {

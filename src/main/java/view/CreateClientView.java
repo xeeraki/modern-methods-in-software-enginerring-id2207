@@ -22,7 +22,7 @@ public class CreateClientView extends JFrame {
 	
 
 	public CreateClientView(Controller controller) {
-		super("SEP create task page");
+		super("SEP Register new customer page");
 		setSize(800, 600);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();
