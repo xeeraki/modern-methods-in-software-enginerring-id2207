@@ -1,10 +1,9 @@
-package view;
+package acceptanceTest;
 
 import javax.swing.*;
 
 import controller.Controller;
 import model.Client;
-import model.EventRequest;
 import model.Status;
 
 import java.util.List;
@@ -125,9 +124,6 @@ public class CreateEventView extends JFrame {
 
         getContentPane().add(pane, BorderLayout.NORTH);
 
-
-
-
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         createEventListener(clientList);
@@ -144,8 +140,9 @@ public class CreateEventView extends JFrame {
                 String name1 = eventName.getText();
                 Client client1 = (Client) clientList.getSelectedValue();
                 double budget1 = Double.parseDouble(budget.getText());
-                currentStatus.setText(Status.Created.getText());
-                controller.createEventRequest(from, to, description1, name1, client1, budget1);
+                String status1 = status.Created.getText();
+                currentStatus.setText(status1);
+                controller.createEventRequest(from, to, description1, name1, client1, budget1,status1);
             }
         });
 

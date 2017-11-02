@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import acceptanceTest.CreateEventView;
+import acceptanceTest.ListUpdaterView;
+import acceptanceTest.MainView;
 import model.Status;
 
 
 import model.*;
-import view.ListUpdaterView;
-import view.MainView;
+
+import static model.Position.*;
 
 public class Controller {
 
@@ -21,14 +24,14 @@ public class Controller {
     private int taskCounter;
     private int staffCounter;
     private int financeCounter;
-    private int statusCounter;
+
 
     private List<Client> clients;
     private List<EventRequest> events;
     private List<Task> tasks;
     private List<StaffRequest> staffRequest;
     private List<FinancialRequest> financialRequest;
-    private Status status;
+
 
     private Team audio;
     private Team photography;
@@ -56,13 +59,14 @@ public class Controller {
     }
 
 
-    public void createEventRequest(String from, String to, String description, String name, Client client, double budget) {
-        event(from, to, description, name, client, budget);
+    public void createEventRequest(String from, String to, String description, String name, Client client, double budget, String status) {
+        event(from, to, description, name, client, budget, status);
     }
 
 
-    private void event(String from, String to, String description, String name, Client client, double budget) {
-        EventRequest event = new EventRequest(from, to, description,name, client, eventCounter, budget);
+    private void event(String from, String to, String description, String name, Client client, double budget, String status) {
+        EventRequest event = new EventRequest(from, to, description, name, client, eventCounter, budget, status);
+        //event.setStatus(Status.Created.getText());
         events.add(event);
         eventCounter++;
     }
@@ -75,6 +79,12 @@ public class Controller {
         FinancialRequest req = new FinancialRequest(event, description, resources, manager, financeCounter);
         financialRequest.add(req);
         financeCounter++;
+    }
+
+    public void createClient(String name, String email, String phone) {
+        Client client = new Client(name, email, phone, clientCounter);
+        clients.add(client);
+        clientCounter++;
     }
 
     public List<EventRequest> getEventsWithClient(Client client) {
@@ -90,11 +100,6 @@ public class Controller {
         return login.login(username, password);
     }
 
-    public void createClient(String name, String email, String phone) {
-        Client client = new Client(name, email, phone, clientCounter);
-        clients.add(client);
-        clientCounter++;
-    }
 
     public List<Client> getClients() {
         return clients;
@@ -126,36 +131,76 @@ public class Controller {
         return newList;
     }
 
-    public void changeStatus(int currentEventId, User currentUser) {
-        EventRequest event = events.get(currentEventId);
-        switch (currentUser.getPosition()) {
-            case SeniorCustomerService:
-                if (event.getStatus()==status.Created)
-                    event.setStatus(Status.AcceptedBySCS);
-                break;
-            case FinancialManager:
-                if (event.getStatus() == status.AcceptedBySCS)
-                    event.setStatus(Status.AcceptedByFM);
-                else{
-                    events.clear();
-                }
-                break;
-            case AdministrationManager:
-                if (event.getStatus() == status.AcceptedByFM || event.getStatus() == status.AcceptedBySCS)
-                    event.setStatus(Status.AcceptedByAM);
-                break;
-            default:
+    public void  showList(int currentEventId, User currentUser) {
+        for (EventRequest event : events) {
+            switch (currentUser.getPosition())
+            {
+                case FinancialManager:
+                    if (event.getStatus() != Status.AcceptedBySCS.getText()) {
+                        events.clear();
+                    }
+                    events.add(event);
+                    break;
+                case AdministrationManager:
+                    if (event.getStatus() == Status.AcceptedByFM.getText() || event.getStatus() == Status.AcceptedBySCS.getText())
+                        event.setStatus(Status.AcceptedByAM.getText());
+                    break;
+                default:
+            }
         }
 
     }
+    public void changeStatus(int currentEventId, User currentUser) {
+        EventRequest event = events.get(currentEventId);
+        Status newStatus;
+        switch(currentUser.getPosition()) {
+            case SeniorCustomerService :
+                if(event.getStatus() == Status.Created.getText()) {
+                    newStatus = Status.AcceptedBySCS;
+                } else
+                    newStatus = Status.Finalized;
+                break;
+            case  FinancialManager :
+                newStatus = Status.AcceptedByFM;
+                break;
+            case  AdministrationManager :
+                newStatus = Status.AcceptedByAM;
+                break;
+            default: newStatus = null;
+        }
+
+        event.setStatus(newStatus.toString());
+
+    }
+
+/*    public void changeStatus(int currentEventId, User currentUser) {
+        EventRequest event = events.get(currentEventId);
+        switch (currentUser.getPosition()) {
+            case SeniorCustomerService:
+                if (event.getStatus()==Status.Created.getText())
+                    event.setStatus(Status.AcceptedBySCS.getText());
+                break;
+            case FinancialManager:
+                if(event.getStatus()==Status.AcceptedBySCS.getText())
+                   event.setStatus(Status.AcceptedByFM.getText());
+                break;
+            case AdministrationManager:
+                if (event.getStatus() == Status.AcceptedByFM.getText() || event.getStatus() == Status.AcceptedBySCS.getText())
+                    event.setStatus(Status.AcceptedByAM.getText());
+                break;
+            default:
+
+        }
+
+    }*/
 
 
     public void initTeams() {
         audio = new Team(login.getUserWithPosition(Position.ProductionManager), "audio sub team");
         photography = new Team(login.getUserWithPosition(Position.ProductionManager), "Photography team");
 
-        chefs = new Team(login.getUserWithPosition(Position.ServiceManager), "Chefs sub team ");
-        waitresses = new Team(login.getUserWithPosition(Position.ServiceManager), "Waitress sub team");
+        chefs = new Team(login.getUserWithPosition(ServiceManager), "Chefs sub team ");
+        waitresses = new Team(login.getUserWithPosition(ServiceManager), "Waitress sub team");
 
         for (User user : login.getUsers()) {
             switch (user.getPosition()) {

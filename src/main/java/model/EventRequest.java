@@ -8,9 +8,11 @@ public class EventRequest {
     private final Client client;
     private final int id;
     private double budget;
-    private Status status;
+    private String status;
 
-    public EventRequest(String from, String to, String description, String name, Client client, int id, double budget) {
+
+
+    public EventRequest(String from, String to, String description, String name, Client client, int id, double budget, String status) {
         this.from = from;
         this.to = to;
         this.description = description;
@@ -18,7 +20,7 @@ public class EventRequest {
         this.client = client;
         this.id = id;
         this.budget = budget;
-        this.status = Status.Created;
+        this.status=Status.Created.getText();
     }
 
     public String getFrom() {
@@ -69,11 +71,11 @@ public class EventRequest {
         this.budget = budget;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

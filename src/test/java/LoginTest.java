@@ -10,7 +10,7 @@ public class LoginTest {
     public void isPosition()throws Exception{
         Login login = new Login();
 
-        User user = new User("CS","0000", Position.CustomerService);
+        User user = new User("cs","0000", Position.CustomerService);
         User position = login.login(user.getUsername(),user.getPassword());
 
         Assert.assertEquals(Position.CustomerService,position.getPosition());
@@ -20,10 +20,10 @@ public class LoginTest {
     public void isLoggedIn() throws Exception {
 
         Login login = new Login();
-        User user = new User("CS","0000", Position.CustomerService);
+        User user = new User("cs","0000", Position.CustomerService);
         User position = login.login(user.getUsername(),user.getPassword());
 
-        Assert.assertEquals("CS",position.getUsername());
+        Assert.assertEquals("cs",position.getUsername());
         Assert.assertEquals("0000",position.getPassword());
 
         Assert.assertEquals(Position.CustomerService,position.getPosition());

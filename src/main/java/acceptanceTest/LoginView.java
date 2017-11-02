@@ -1,8 +1,9 @@
-package view;
+package acceptanceTest;
 
 import javax.swing.*;
 
 import controller.Controller;
+import model.EventRequest;
 import model.User;
 
 import java.awt.*;

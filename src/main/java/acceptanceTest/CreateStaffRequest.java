@@ -1,10 +1,8 @@
-package view;
+package acceptanceTest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,21 +13,21 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
 import controller.Controller;
-import model.*;
 import model.EventRequest;
 import model.Position;
 
+import model.Team;
+import model.User;
 
-public class CreateTaskView extends JFrame {
+
+public class CreateStaffRequest extends JFrame {
 	
 	private final Controller controller;
 
 
 	JPanel panel = new JPanel();
-	private JTextField originalBudgetField;
 	JButton createButton = new JButton("Create");
 	private JTextField descriptionField;
 	private JLabel lblDescription;
@@ -40,8 +38,8 @@ public class CreateTaskView extends JFrame {
 	private JList teamList;
 
 
-	public CreateTaskView(Controller controller, User currentUser) {
-		super("SEP Task View page");
+	public CreateStaffRequest(Controller controller, User currentUser) {
+		super("SEP Staff Request");
 		setSize(800, 600);
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();
@@ -56,17 +54,8 @@ public class CreateTaskView extends JFrame {
 
 		getContentPane().add(panel);
 		
-		originalBudgetField = new JTextField();
-		originalBudgetField.setBounds(164, 10, 114, 19);
-		panel.add(originalBudgetField);
-		originalBudgetField.setColumns(10);
 		
-		JLabel lblOriginalBudget = new JLabel("Budget");
-		lblOriginalBudget.setBounds(12, 12, 114, 19);
-		panel.add(lblOriginalBudget);
-		
-		
-		JLabel eventsLabel = new JLabel("Events List");
+		JLabel eventsLabel = new JLabel("Events");
 		eventsLabel.setBounds(328, 12, 70, 15);
 		panel.add(eventsLabel);
 		
@@ -75,12 +64,12 @@ public class CreateTaskView extends JFrame {
 		panel.add(createButton);
 		
 		descriptionField = new JTextField();
-		descriptionField.setBounds(135, 64, 163, 86);
+		descriptionField.setBounds(135, 29, 163, 86);
 		panel.add(descriptionField);
 		descriptionField.setColumns(10);
 		
 		lblDescription = new JLabel("Description");
-		lblDescription.setBounds(12, 66, 105, 15);
+		lblDescription.setBounds(12, 27, 105, 15);
 		panel.add(lblDescription);
 		
 		List<EventRequest> event = controller.getEvents();
@@ -119,7 +108,7 @@ public class CreateTaskView extends JFrame {
 		panel.add(teamList);
 		
 		
-		createTaskAction();
+		createStaffListener();
 		setVisible(true);
 		
 		
@@ -128,14 +117,13 @@ public class CreateTaskView extends JFrame {
 	
 	
 	
-	public void createTaskAction(){
+	public void createStaffListener(){
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				double originalBudget = Double.valueOf(originalBudgetField.getText());
 				String description = descriptionField.getText();
 				EventRequest event = (EventRequest) eventList.getSelectedValue();
 				Team team = (Team) teamList.getSelectedValue();
-				controller.createTask(currentUser, originalBudget, 0, description, "", event,team);
+				controller.createStaffRequest(event, team, description);
 			}
 		});
 	}

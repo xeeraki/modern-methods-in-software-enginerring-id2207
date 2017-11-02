@@ -1,7 +1,9 @@
-package view;
+package acceptanceTest;
 import javax.swing.*;
 
 import controller.Controller;
+import model.EventRequest;
+import model.Position;
 import model.Status;
 import model.User;
 
@@ -13,6 +15,8 @@ import java.awt.event.*;
         private final Controller controller;
         private  User user;
         private final LoginView loginView;
+        private EventRequest event;
+
 
         JPanel panel = new JPanel();
         ListClientView listClientsView;
@@ -243,7 +247,10 @@ import java.awt.event.*;
         public void listEventsListener(){
             btnListEvent.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    new ListUpdaterView(controller, user);
+                  ListUpdaterView frame =  new ListUpdaterView(controller, user);
+
+
+
                 }
             });
         }

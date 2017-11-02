@@ -17,10 +17,7 @@ public class StaffRequestTest {
 		EventRequest event = controller.getEvents().get(0);
 		
 		Team team = controller.getProductionTeam().get(0);
-		
-		
 		controller.createStaffRequest(event, team, "need crew");
-		
 		Assert.assertEquals(1, controller.getStaffReq().size());
 	}
 	

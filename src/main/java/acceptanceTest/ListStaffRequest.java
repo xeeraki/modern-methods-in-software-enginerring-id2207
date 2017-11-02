@@ -1,4 +1,4 @@
-package view;
+package acceptanceTest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -60,7 +60,7 @@ public class ListStaffRequest extends JFrame {
 		getContentPane().add(panel);
 
 		teamField = new JTextField();
-		teamField.setBounds(164, 10, 114, 19);
+		teamField.setBounds(164, 10, 150, 19);
 		panel.add(teamField);
 		teamField.setColumns(10);
 

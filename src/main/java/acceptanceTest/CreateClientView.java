@@ -1,4 +1,4 @@
-package view;
+package acceptanceTest;
 
 import javax.swing.*;
 

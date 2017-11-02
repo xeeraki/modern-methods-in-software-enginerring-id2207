@@ -1,4 +1,4 @@
-package view;
+package acceptanceTest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,15 +17,12 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
 import controller.Controller;
-import model.EventRequest;
-import model.Position;
-import model.Status;
-import model.User;
-
+import model.*;
 
 public class ListUpdaterView extends JFrame {
 
     private final Controller controller;
+    private EventRequest event;
 
     //private String [] status = {"Created by CS","Accepted by SCS","Accepted by FM", "Accepted by AM"};
 
@@ -50,7 +47,7 @@ public class ListUpdaterView extends JFrame {
     private JTextField currentStatus;
     private int currentEventId;
     private User currentUser;
-    private Status status;
+    private String view;
 
 
     public ListUpdaterView(Controller controller, User currentUser) {
@@ -65,8 +62,6 @@ public class ListUpdaterView extends JFrame {
 
         this.controller = controller;
         this.currentUser = currentUser;
-
-
         getContentPane().add(panel);
 
         eventName = new JTextField();
@@ -105,10 +100,9 @@ public class ListUpdaterView extends JFrame {
         panel.add(lblDescription);
 
 
-        JLabel eventsLabel = new JLabel("Events");
+        JLabel eventsLabel = new JLabel("Events List");
         eventsLabel.setBounds(328, 32, 70, 15);
         panel.add(eventsLabel);
-
 
         acceptButton.setBounds(61, 314, 117, 25);
         panel.add(acceptButton);
@@ -132,7 +126,6 @@ public class ListUpdaterView extends JFrame {
 
         getContentPane().add(pane, BorderLayout.NORTH);
 
-
         JLabel clientLabel = new JLabel("Client");
         clientLabel.setBounds(47, 224, 70, 15);
         panel.add(clientLabel);
@@ -142,10 +135,8 @@ public class ListUpdaterView extends JFrame {
         panel.add(clientInfo);
         clientInfo.setColumns(10);
 
-
         updateButton.setBounds(237, 314, 117, 25);
         panel.add(updateButton);
-
 
         rejectButton.setBounds(413, 314, 117, 25);
         panel.add(rejectButton);
@@ -159,132 +150,94 @@ public class ListUpdaterView extends JFrame {
         panel.add(currentStatus);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        addListMouseListener(eventList);
+
+        //controller.changeStatus(currentEventId,currentUser);
+        //controller.showList(currentEventId,currentUser);
+
+        acceptButton.setVisible(false);
+        rejectButton.setVisible(false);
+        updateButton.setVisible(false);
 
 
-        addListMouseListener(eventList);
-        //viewEvent();
         acceptEventListener();
         updateEventListener();
         rejectEventAction();
+        addListMouseListener(eventList);
+        //showList();
+
+        //addListMouseListener(eventList);
+        //showList(eventList);
+
         setVisible(true);
 
 
     }
 
+    public void showList() {
+        switch (currentUser.getPosition()) {
+            case FinancialManager:
+                if (event.getStatus() != (Status.AcceptedBySCS.getText()))
+                    eventList.clearSelection();
+                break;
 
-
-
-
-    /*public void viewEvent(){
-        switch ( currentUser.getPosition()) {
-			case SeniorCustomerService:
-				if(event.getText()!=status.Created.toString()){
-					eventList.;
-				}
-
-			case FinancialManager:
-
-				if (currentStatus.getText() != status.AcceptedBySCS.toString()) {
-					eventList.setVisible(false);
-				}
-
-			case AdministrationManager:
-				if (currentStatus.getText() != status.AcceptedByFM.toString()) {
-					eventList.setVisible(false);
-				}
-
-
-		}
-	}*/
+        }
+    }
 
 
     public void addListMouseListener(JList list) {
+
         list.addMouseListener(new MouseAdapter() {
+
             public void mouseClicked(MouseEvent evt) {
+
 
                 JList list = (JList) evt.getSource();
                 int index = list.locationToIndex(evt.getPoint());
                 EventRequest event = (EventRequest) list.getModel().getElementAt(index);
+                //Client client = (Client) list.getModel().getElementAt(index);
                 eventName.setText(event.getName());
                 dateFrom.setText(event.getFrom());
                 dateTo.setText(event.getTo());
                 budget.setText(String.valueOf(event.getBudget()));
                 description.setText(event.getDescription());
-                clientInfo.setText(event.getClient().getName());
+                currentStatus.setText(event.getStatus());
+                //clientInfo.setText(client.getName());
                 //Status status1 = Status.Created;
-                currentStatus.setText(event.getStatus().getText());
                 //event.setStatus(status.getText());
                 currentEventId = event.getId();
-
-/*
-                if (currentUser.getPosition() == Position.SeniorCustomerService && event.getStatus() == status) {
+                //controller.showEvents(currentEventId,currentUser);
+                if (currentUser.getPosition() == Position.SeniorCustomerService && event.getStatus() == Status.Created.getText()) {
                     acceptButton.setVisible(true);
                     rejectButton.setVisible(true);
+
                 }
 
-                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == status.Created) {
+                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == Status.AcceptedBySCS.getText()) {
                     acceptButton.setVisible(true);
-                    eventList.clearSelection();
-                }
-                else if (currentUser.getPosition()==Position.FinancialManager&& event.getStatus()==status.AcceptedBySCS){
-                    //currentStatus.setText(Status.AcceptedBySCS.toString());
                     rejectButton.setVisible(true);
                     updateButton.setVisible(true);
-
-
-
                 }
 
-                if (currentUser.getPosition() == Position.AdministrationManager && event.getStatus() == status.AcceptedByFM) {
-                    //setVisible(true);
+                if (currentUser.getPosition() == Position.AdministrationManager && event.getStatus() == Status.AcceptedByFM.getText()) {
                     acceptButton.setVisible(true);
                     rejectButton.setVisible(true);
                 }
 
-                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == status.AcceptedByAM) {
+                if (currentUser.getPosition() == Position.FinancialManager && event.getStatus() == Status.AcceptedByAM.getText()) {
                     updateButton.setVisible(true);
-                    updateEventListener();
-                }*/
-
+                }
             }
-
         });
+
     }
 
     public void acceptEventListener() {
         acceptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.changeStatus(currentEventId,currentUser);
-               /*Status newStatus;
-                switch (currentUser.getPosition()) {
-                    case SeniorCustomerService:
-                        if(currentStatus==null){
-                            currentStatus.setText(status.getText());
-                        }
-                        newStatus = Status.AcceptedBySCS;
-                        currentStatus.setText(newStatus.toString());
-                        break;
-                    case FinancialManager:
-                        if(status == status.Created){
-                            currentStatus.setText(status.getText().toString());
-                        }
-                        else if(status==status.AcceptedBySCS) {
-
-                            currentStatus.setText(status.getText().toString());
-                           status = Status.AcceptedByFM;
-                           currentStatus.setText(status.getText());
-                        }
-                        currentStatus.setText(status.AcceptedByFM.getText());
-                        break;
-                    case AdministrationManager:
-                        newStatus = status.AcceptedByAM;
-                        currentStatus.setText(newStatus.toString());
-                        break;
-                    default:
-                        newStatus = null;
-                        currentStatus.setText(newStatus.toString());*/
-                }
+                controller.changeStatus(currentEventId, currentUser);
+                //controller.showEvents(currentEventId,currentUser);
+                //
+            }
 
 
         });

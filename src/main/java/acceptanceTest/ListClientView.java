@@ -1,4 +1,4 @@
-package view;
+package acceptanceTest;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -117,12 +117,13 @@ public class ListClientView extends JFrame {
                 JList list = (JList) evt.getSource();
                 int index = list.locationToIndex(evt.getPoint());
                 Client client = (Client) list.getModel().getElementAt(index);
-                List<EventRequest> events = controller.getEventsWithClient(client);
+                /*List<EventRequest> events = controller.getEventsWithClient(client);
+
                 StringBuilder sb = new StringBuilder();
                 for (EventRequest event : events) {
                     sb.append(event.getName() + " budget: " + event.getBudget() + "\n");
-                }
-                clientEventField.setText(sb.toString());
+                }*/
+                //clientEventField.setText(sb.toString());
                 clientNameField.setText(client.getName());
                 clientEmailField.setText(client.getMail());
                 clientPhoneField.setText(client.getPhone());
